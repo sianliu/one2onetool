@@ -7,12 +7,13 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Running build automation'
-                sh './gradlew build --no-daemon'
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
                 echo "Running unit tests"
+                sh './jenkins/scripts/test.sh'
                 
             }
         }
