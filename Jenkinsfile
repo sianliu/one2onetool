@@ -1,19 +1,21 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3000:3000 -p 5000:5000'
-        }
-    }
+    agent any
     environment {
-        CI = 'true'
+        DOCKER_IMAGE_NAME = "sianliu/one2onetool"
     }
     stages {
         stage('Build') {
             steps {
+                echo 'Running build automation'
                 sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Running unit tests"
+                sh './jenkins/scripts/test.sh'
+                
             }
         }
     }
 }
-
