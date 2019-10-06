@@ -1,47 +1,19 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:6-alpine'
+            args '-p 3000:3000 -p 5000:5000'
+        }
+    }
     environment {
-        DOCKER_IMAGE_NAME = "sianliu/one2onetool"
+        CI = 'true'
     }
     stages {
         stage('Build') {
             steps {
-                echo 'Running build automation'
                 sh 'npm install'
             }
         }
-        stage('Test') {
-            steps {
-                echo "Running unit tests"
-                sh 'npm test'                
-            }
-        }
-        stage('Build Docker Image') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                    app = docker.build(DOCKER_IMAGE_NAME)
-                    app.inside {
-                        sh 'echo Hello, World!'
-                    }
-                }
-            }
-        }
-        stage('Push Docker Image') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
-                    }
-                }
-            }
-        }
-
     }
 }
+
