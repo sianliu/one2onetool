@@ -1,7 +1,9 @@
 pipeline {
-    agent any
-    environment {
-        DOCKER_IMAGE_NAME = "sianliu/one2onetool"
+    agent {
+        docker {
+            image 'node:latest'
+            args '-p 3000:3000 -p 5000:5000'
+        }
     }
     stages {
         stage('Build') {
