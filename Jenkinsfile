@@ -4,17 +4,10 @@ pipeline {
         DOCKER_IMAGE_NAME = "sianliu/one2onetool"
     }
     stages {
-        stage('Build') {
+        stage('Build and Test') {
             steps {
                 echo 'Running build automation'
                 sh './gradlew build --no-daemon'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo "Running unit tests"
-                sh 'npm test'
-                
             }
         }
         stage('Build Docker Image') {

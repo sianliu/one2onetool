@@ -10,7 +10,7 @@ node {
 }
 
 //declare a build task
-task build
+task build 
 
 //declare task dependencies
 npm_build.dependsOn npm_test
